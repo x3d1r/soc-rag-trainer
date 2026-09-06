@@ -1,4 +1,4 @@
-# Security OrientedRAG Knowledge Trainer
+# Security Oriented RAG Knowledge Trainer
 
 **A generalised data engineering pipeline for ingesting, normalizing, and vectorizing diverse cybersecurity knowledge into Pinecone for AI-driven Security Operations Centers (SOC).**
 
@@ -7,7 +7,7 @@
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white)
 
-## 📋 Overview
+## Overview
 Building a Retrieval-Augmented Generation (RAG) system for a SOC requires feeding the AI multiple types of knowledge: Threat Intelligence, Internal SOPs, Tool Syntax, and Infrastructure Context. 
 
 Most RAG implementations fail because they blindly dump raw PDFs or massive JSON files into a vector database, leading to hallucinations and poor retrieval. Within this project I wanted to focus on ensuring I had not faces any issues with **ETL (Extract, Transform, Load) bottleneck** for AI SOC Agents. 
@@ -67,9 +67,9 @@ This n8n workflow acts as a **Universal Loader**. To train a new part of the SOC
 
 | n8n Universal Loader Template | Pinecone Namespace Isolation |
 | :---: | :---: |
-| ![Workflow](workflows.png) | ![Pinecone](assets/pinecone-namespaces.png) |
+| ![Workflow](assets/workflows.png) | ![Pinecone](assets/pinecone.png) |
 
-## 🗺️ Roadmap
+##  Roadmap
 - [x] **Phase 1:** Core n8n Loader Architecture & MITRE Ingestion
 - [x] **Phase 2:** Dimensionality Reduction (512d) Optimization
 - [ ] **Phase 3:** Internal SOP & Playbook Ingestion Pipeline
