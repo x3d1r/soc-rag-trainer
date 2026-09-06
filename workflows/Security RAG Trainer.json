@@ -1,0 +1,295 @@
+{
+  "name": "Security RAG Trainer",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -272,
+        0
+      ],
+      "id": "0b485675-5953-45e4-bacb-4272eb3aeb77",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "soc-agent",
+          "mode": "list",
+          "cachedResultName": "soc-agent"
+        },
+        "embeddingBatchSize": 64,
+        "options": {
+          "pineconeNamespace": "mitre"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        576,
+        -128
+      ],
+      "id": "99ded4ab-b22d-4027-adde-9b1fea8989e3",
+      "name": "Pinecone Vector Store",
+      "credentials": {
+        "pineconeApi": {
+          "id": "9uLLAkfSOEI3rcoI",
+          "name": "Pinecone account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "dimensions": 512,
+          "batchSize": 64
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        576,
+        96
+      ],
+      "id": "433463f9-73ec-4d78-8bb8-723ffd17ea79",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "DvQXQBZ1vYukjzrD",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "textSplittingMode": "custom",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        720,
+        992
+      ],
+      "id": "130208a7-7d0c-4092-8ed9-d1bd0f53aff4",
+      "name": "Default Data Loader",
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.textSplitterCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        752,
+        1152
+      ],
+      "id": "802d0cb8-f9bf-461a-a3c8-8bd35ee59616",
+      "name": "Character Text Splitter",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1W9BiAUpFrCboeaoc0EOSMyu0ZfxfGtqg",
+          "mode": "list",
+          "cachedResultName": "mitre_normalized.csv",
+          "cachedResultUrl": "https://drive.google.com/file/d/1W9BiAUpFrCboeaoc0EOSMyu0ZfxfGtqg/view?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        16,
+        0
+      ],
+      "id": "8d58ca22-62ce-4754-a881-9b629124cf07",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wZdDN3CDvVWj96dN",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "loader": "csvLoader",
+        "options": {
+          "column": "text_chunk",
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "source",
+                "value": "mitre_attack"
+              },
+              {
+                "name": "knowledge_type",
+                "value": "framework"
+              },
+              {
+                "name": "namespace",
+                "value": "mitre"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        800,
+        80
+      ],
+      "id": "e2f1186c-19c5-4594-96f3-a1d967f159a7",
+      "name": "Default Data Loader1"
+    },
+    {
+      "parameters": {
+        "content": "# this is a different way to load data, not important",
+        "height": 400,
+        "width": 496,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        528,
+        912
+      ],
+      "typeVersion": 1,
+      "id": "106fc870-181d-47f3-aa94-5f15aad09f94",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# CONFIGURATION\n• Pinecone Index: soc-agent (dimension 512, cosine)\n• Namespace: choose\n• Embedding: OpenAI, 512 dimensions\n• Source: mitre_normalized.csv (Google Drive)\n• CSV text column: text_chunk\n• Text splitting: Custom — chunk size 4000, overlap 0",
+        "height": 688,
+        "width": 624,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        384,
+        -336
+      ],
+      "typeVersion": 1,
+      "id": "ec3bf6be-b3fb-444f-b534-267132e2f913",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "# SECURITY RAG TRAINER — Ingestion\n\nPurpose: Ingest normalized data into the\nsoc-agent Pinecone index (choose namespace) to power the\nSOC AI agent's knowledge base.\n\nFlow: Google Drive (CSV) → Data Loader (CSV/text_chunk)\n→ OpenAI Embeddings (512d) → Pinecone (namespace)",
+        "height": 672,
+        "width": 736
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -416,
+        -320
+      ],
+      "typeVersion": 1,
+      "id": "1549cc3f-f713-4990-b9d1-558929f85e2a",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "# IMPORTANT\n• Index dimension MUST equal 512 or inserts fail.\n• Mode is INSERT → re-running creates DUPLICATES.\n  Clear the custom namespace first (or use upsert).\n• CSV Column must be exactly \"text_chunk\".",
+        "height": 208,
+        "width": 560,
+        "color": "#FFF70A"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -416,
+        384
+      ],
+      "typeVersion": 1,
+      "id": "cbd4bc89-018a-445c-9f20-e072cf151d43",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        []
+      ]
+    },
+    "Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader1": {
+      "ai_document": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "09656f13-eee2-41e3-b97d-d9530bc01ed9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2124f9ae05b6de97ed433abb76221dc1ee8d7fb638433619a64d4d55530785bd"
+  },
+  "nodeGroups": [],
+  "id": "8r5ey4Xwr0M4xXY2",
+  "tags": []
+}
