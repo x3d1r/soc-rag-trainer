@@ -67,7 +67,7 @@ This n8n workflow acts as a **Universal Loader**. To train a new part of the SOC
 
 | n8n Universal Loader Template | Pinecone Namespace Isolation |
 | :---: | :---: |
-| ![Workflow](assets/n8n-workflow.png) | ![Pinecone](assets/pinecone-namespaces.png) |
+| ![Workflow](assets/workflows.png) | ![Pinecone](assets/pinecone-namespaces.png) |
 
 ## 🗺️ Roadmap
 - [x] **Phase 1:** Core n8n Loader Architecture & MITRE Ingestion
